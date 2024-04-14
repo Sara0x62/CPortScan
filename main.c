@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     //    [0]  [1]  [2]
     if (argc <= 1) { print_usage(); exit(0);}
 
-    unsigned int THREAD_COUNT = 20; 
+    unsigned int THREAD_COUNT = 20;
     if (argc == 3) {
         unsigned long tmp = strtoul(argv[2], NULL, 0);
         if (tmp < 0 || tmp > UINT_MAX) {
@@ -68,8 +68,6 @@ int main(int argc, char* argv[])
     inet_ntop(AF_INET, &(ipv4->sin_addr), ip, INET_ADDRSTRLEN);
     printf("Got target IP: %s\n", ip);
 
-    exit(1);
-
     /* // - We kinda only need the first one
     for (; ai != NULL; ai=ai->ai_next) {
         struct sockaddr_in *ipv4 = (struct sockaddr_in *)ai->ai_addr;
@@ -94,7 +92,7 @@ int main(int argc, char* argv[])
         args->addrs = results;
 
         // Spliting ports for every thread
-        for (int z = 0; z < 50; z++) {
+        for (int z = 0; z < (1000 / THREAD_COUNT); z++) {
             // printf("[*] - Z = %d | Start = %d\n", z, start);
             args->port_range[z] = PORTS[start];
             start++;
@@ -128,7 +126,7 @@ void port_scan(char* ip, unsigned int port, struct addrinfo* addrs)
     if (res == 0) {
         printf("PORT: %6d | OPEN\n", port);
     } else {
-        fflush(stdout); 
+        fflush(stdout);
     }
 
     // Cleaning
