@@ -25,6 +25,7 @@ typedef struct {
     unsigned int thread_id;
     char* target_ip;
     struct addrinfo* addrs;
+    unsigned int ports_thread;
     uint16_t* port_range;
 } thread_args;
 
@@ -83,6 +84,7 @@ int main(int argc, char* argv[])
         // printf("[*] - Allocating struct args...\n");
         thread_args* args = malloc(sizeof(thread_args));
         args->thread_id = x;
+        args->ports_thread = ports_per_thread;
 
         // Target ip
         // printf("[*] - Allocating target ip...\n");
@@ -142,7 +144,7 @@ void *worker(void *args)
 {
     thread_args f_args = * ((thread_args*) args);
 
-    for (int x = 0; x < 50; x++) {
+    for (int x = 0; x < f_args.ports_thread; x++) {
         port_scan(f_args.target_ip, f_args.port_range[x], f_args.addrs);
     }
 }
